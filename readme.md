@@ -13,3 +13,6 @@ add a comment POST /issues/:id/comments ✅
 As the user of the comment, able to delete comment DELETE /issues/:id/comments/:id ✅
 
 As the sender of the issue, able to modify the issue UPDATE /issues/:id
+
+// sql injections
+// web sockets long-pulling

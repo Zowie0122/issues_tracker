@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 echo "Configuring database" 
 
 dropdb -U node_user issues_tracker
