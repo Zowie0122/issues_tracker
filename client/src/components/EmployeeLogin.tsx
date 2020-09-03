@@ -21,17 +21,15 @@ const EmployeeLogin: React.FC = () => {
         email: emailInput,
         password: passwordInput,
       });
-      console.log(res.data[0]);
-      if (res.data[0].password === passwordInput) {
-        const userId: number = res.data[0].did;
-        localStorage.setItem("issue_tracker_employee_id", userId.toString());
+      if (res.data.authToken) {
+        localStorage.setItem("i_token", res.data.authToken);
+        localStorage.setItem("i_id", res.data.userId);
         window.location.href = `http://localhost:3000/employee/dashboard`;
       }
     } catch (err) {
       console.log(err);
     }
   }
-
   return (
     <div>
       <EmailInput onEmailChange={emailChangeHandler} />

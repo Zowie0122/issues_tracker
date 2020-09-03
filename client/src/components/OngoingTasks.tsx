@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import Navbar from "./Navbar";
 
-const Dashboard: React.FC = () => {
+const OngoingTasks: React.FC = () => {
   const [userInfo, setUserInfo] = useState<AxiosResponse | null>(null);
 
   interface AxiosResponse {
-    did: number;
-    username: string;
-    email: string;
-    password: string;
-    department_name: number;
-    department_id: number;
-    uid: number;
+    // did: number;
+    // username: string;
+    // email: string;
+    // password: string;
+    // department_name: number;
+    // department_id: number;
+    // uid: number;
   }
 
-  async function fetch_user_info() {
+  async function fetch_ongoing_assignments() {
     try {
       const auth_id = localStorage.getItem("i_id");
       const auth_token = localStorage.getItem("i_token");
 
       if (auth_id !== null && auth_token !== null) {
-        const userData = await axios.get(
-          `http://localhost:5000/user/${auth_id}`,
+        const data = await axios.get(
+          `http://localhost:5000/user/assignments/ongoing`,
           {
             headers: {
               token: auth_token,
@@ -30,8 +30,7 @@ const Dashboard: React.FC = () => {
             },
           }
         );
-        console.log(userData.data);
-        setUserInfo(userData.data[0]);
+        console.log(data.data);
       }
     } catch (err) {
       console.log(err);
@@ -39,15 +38,15 @@ const Dashboard: React.FC = () => {
   }
 
   useEffect(() => {
-    fetch_user_info();
+    fetch_ongoing_assignments();
   }, []);
 
   return (
     <div>
       <Navbar />
-      {userInfo && <h1>Hi ! {userInfo.username}</h1>}
+      <h1>Ongoing Tasks</h1>
     </div>
   );
 };
 
-export default Dashboard;
+export default OngoingTasks;
