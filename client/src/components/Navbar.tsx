@@ -23,22 +23,26 @@ const Navbar: React.FC = () => {
       mode="inline"
       style={{ width: 256 }}
     >
-      <Menu.Item key="ongoing_issues" icon={<FormOutlined />}>
-        <a href="/employee/dashboard">Ongoing Tasks</a>
+      <Menu.Item key="received_ongoing" icon={<FormOutlined />}>
+        <a href="/employee/received_ongoing">Ongoing Tasks</a>
       </Menu.Item>
 
-      <Menu.Item key="post" icon={<EditOutlined />}>
-        <a href="/employee/post_issue">Post an issue</a>
+      <Menu.Item key="new_post" icon={<EditOutlined />}>
+        <a href="/employee/post_new_request">Post an issue</a>
       </Menu.Item>
-      <Menu.Item key="track_issues" icon={<EditOutlined />}>
-        Track your issues
+
+      <Menu.Item key="requested_ongoing" icon={<EditOutlined />}>
+        <a href="/employee/requested_ongoing">Ongoing issues</a>
       </Menu.Item>
-      <Menu.Item key="solved_issues" icon={<ScheduleOutlined />}>
-        Your Posts History
+
+      <Menu.Item key="received_solved" icon={<ScheduleOutlined />}>
+        <a href="/employee/received_solved">Solved Tasks History</a>
       </Menu.Item>
-      <Menu.Item key="solved_tasks" icon={<ScheduleOutlined />}>
-        <a href="/employee/solved_tasks">Solved Tasks History</a>
+
+      <Menu.Item key="requested_solved" icon={<ScheduleOutlined />}>
+        <a href="/employee/requested_solved">Your Posts History</a>
       </Menu.Item>
+
       <Menu.Item key="setting" icon={<SettingOutlined />}>
         <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
           Change Password

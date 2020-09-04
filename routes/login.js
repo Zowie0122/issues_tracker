@@ -9,7 +9,6 @@ require("dotenv").config();
 // for employee login
 router.post("/employee", (request, response, next) => {
   const { email, password } = request.body;
-  console.log(request.body);
 
   pool.query(
     "SELECT uid, password FROM users WHERE email=$1",

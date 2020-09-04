@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../App.css";
 import { Table, Spin, Alert } from "antd";
+import Navbar from "./Navbar";
 
 interface OBJ {
   key: string;
@@ -23,7 +24,12 @@ interface AxiosResponse {
   sender_id: number;
 }
 
-const SolvedTasks: React.FC = () => {
+interface Props {
+  url: string;
+  status: string;
+}
+
+const IssuesTable: React.FC<Props> = ({ url, status }) => {
   const [dataSource, setDataSource] = useState<OBJ[] | null>(null);
 
   const columns = [
@@ -67,15 +73,16 @@ const SolvedTasks: React.FC = () => {
 
   async function fetch_user_info() {
     try {
+      console.log(url, status);
       const token = localStorage.getItem("auth");
       const id = localStorage.getItem("id");
 
       if (token !== null && id !== null) {
-        const res = await axios.get("http://localhost:5000/user/dashboard", {
+        const res = await axios.get(url, {
           headers: {
             authorization: token,
             id: id,
-            status: "solved",
+            status: status,
           },
         });
 
@@ -93,6 +100,7 @@ const SolvedTasks: React.FC = () => {
 
   return (
     <div>
+      <Navbar />
       {dataSource !== null && dataSource.length !== 0 ? (
         <Table dataSource={dataSource} columns={columns} />
       ) : (
@@ -108,4 +116,4 @@ const SolvedTasks: React.FC = () => {
   );
 };
 
-export default SolvedTasks;
+export default IssuesTable;

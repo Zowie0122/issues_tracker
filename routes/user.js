@@ -6,14 +6,17 @@ const { verify } = require("jsonwebtoken");
 require("dotenv").config();
 
 // user's dashboard interface, automatically show the ongoing tasks that the user had been assigned
-router.get("/dashboard", (request, response, next) => {
+router.get("/received/ongoing", (request, response, next) => {
   const { id, status } = request.headers;
   pool.query(
     "SELECT * FROM issues WHERE receiver_id=$1 AND i_status=$2",
     [id, status],
     (err, res) => {
-      if (err) return next(err);
-      response.status(200).json(res.rows);
+      if (err) {
+        response.status(400).json({ message: err });
+      } else {
+        response.status(200).json(res.rows);
+      }
     }
   );
 });

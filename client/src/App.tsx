@@ -1,29 +1,43 @@
 import React from "react";
 import { Router, RouteComponentProps } from "@reach/router";
 import Login from "./components/Login";
-import Dashboard from "./components/Dashboard";
-import OngoingTasks from "./components/OngoingTasks";
+import ReceivedOngoing from "./components/ReceivedOngoing";
+import ReceivedSolved from "./components/ReceivedSolved";
+import RequestedSolved from "./components/RequestedSolved";
+import RequestedOngoing from "./components/RequstedOngoing";
 import PostIssue from "./components/PostIssue";
-import SolvedTasks from "./components/SolvedTasks";
-import Navbar from "./components/Navbar";
-import TrackIssues from "./components/TrackIssues";
+
 const App: React.FC = () => {
   return (
     <div>
-      <Navbar />
       <Router>
         <RouterPage path="/" pageComponent={<Login />} />
-        <RouterPage path="/employee/dashboard" pageComponent={<Dashboard />} />
-        <RouterPage path="/employee/post" pageComponent={<PostIssue />} />
+
         <RouterPage
-          path="/employee/track_issues"
-          pageComponent={<TrackIssues />}
+          path="/employee/received_ongoing"
+          pageComponent={<ReceivedOngoing />}
         />
+
         <RouterPage
-          path="/employee/solved_tasks"
-          pageComponent={<SolvedTasks />}
+          path="/employee/post_new_request"
+          pageComponent={<PostIssue />}
+        />
+
+        <RouterPage
+          path="/employee/requested_ongoing"
+          pageComponent={<RequestedOngoing />}
+        />
+
+        <RouterPage
+          path="/employee/received_solved"
+          pageComponent={<ReceivedSolved />}
         />
       </Router>
+
+      <RouterPage
+        path="/employee/requested_solved"
+        pageComponent={<RequestedSolved />}
+      />
     </div>
   );
 };

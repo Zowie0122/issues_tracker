@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import Navbar from "./Navbar";
 import { Form, Input, Button, Select, DatePicker } from "antd";
 
@@ -97,11 +97,6 @@ const PostIssue: React.FC = () => {
         "http://localhost:5000/admin/department"
       );
       setDepartments(department_data.data);
-      const employees_data = await axios.get(
-        "http://localhost:5000/admin/allemployees"
-      );
-
-      setEmployees(employees_data.data);
     } catch (err) {
       console.log(err);
     }
@@ -195,7 +190,6 @@ const PostIssue: React.FC = () => {
             }}
           />
         </Form.Item>
-        <p>{title}</p>
 
         <Form.Item name="priority" label="Priority" hasFeedback>
           <Select
@@ -209,7 +203,6 @@ const PostIssue: React.FC = () => {
             ))}
           </Select>
         </Form.Item>
-        {console.log(priority)}
 
         <Form.Item
           name="department"
