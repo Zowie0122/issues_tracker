@@ -64,50 +64,108 @@ const validateMessages = {
   },
 };
 
+interface department {
+  did: number;
+  department_name: string;
+}
+
+interface employee {
+  username: string;
+  uid: number;
+}
+
 const PostIssue: React.FC = () => {
-  const [department, setDepartment] = useState<string>("");
-  const [receiver, setReceiver] = useState<string>("");
-  const [deadline, setDeadline] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [priority, setPriority] = useState<any>();
+  const [departments, setDepartments] = useState<department[]>([
+    { did: 0, department_name: "" },
+  ]);
 
-  // const fetch_departments_employees = async () =>{
-  //          try{
+  const [employees, setEmployees] = useState<employee[]>([
+    { username: "", uid: 0 },
+  ]);
 
-  //       const data = await axios.get("")
+  const [selectedDepartment, setSelectedDepartment] = useState<any>("");
 
-  //          }catch(err){
-  //            console.log(err)
-  //          }
+  const [receiver, setReceiver] = useState<any>("");
+  const [deadline, setDeadline] = useState<string | null>("");
+  const [description, setDescription] = useState<string | null>("");
 
-  // }
+  const fetch_departments = async () => {
+    try {
+      const department_data = await axios.get(
+        "http://localhost:5000/admin/department"
+      );
+      setDepartments(department_data.data);
+      const employees_data = await axios.get(
+        "http://localhost:5000/admin/allemployees"
+      );
 
-  const onFinish_time = (fieldsValue: any) => {
-    // Should format date value before submit.
-
-    const rangeTimeValue = fieldsValue["range-time-picker"];
-    const values = {
-      ...fieldsValue,
-
-      "date-time-picker": fieldsValue["date-time-picker"].format(
-        "YYYY-MM-DD HH:mm:ss"
-      ),
-    };
-    console.log("Received values of form: ", values);
+      setEmployees(employees_data.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  async function post_issue() {
-    try {
-      const auth_id = localStorage.getItem("i_id");
-      const auth_token = localStorage.getItem("i_token");
+  useEffect(() => {
+    fetch_departments();
+  }, []);
 
-      if (auth_id !== null && auth_token !== null) {
-        const data = await axios.post("http://localhost:5000/issue", {
-          headers: {
-            token: auth_token,
-            id: auth_id,
-          },
-        });
-        console.log(data.data);
-      }
+  const fetch_departments_employees = async () => {
+    try {
+      const employees_data = await axios.get(
+        `http://localhost:5000/admin/department/${selectedDepartment}`
+      );
+
+      setEmployees(employees_data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetch_departments_employees();
+  }, [selectedDepartment]);
+
+  const TimeRelatedForm = () => {
+    const onFinish_time = (fieldsValue: any) => {
+      // Should format date value before submit.
+      const rangeValue = fieldsValue["range-picker"];
+      const rangeTimeValue = fieldsValue["range-time-picker"];
+      const values = {
+        ...fieldsValue,
+        "date-picker": fieldsValue["date-picker"].format("YYYY-MM-DD"),
+        "date-time-picker": fieldsValue["date-time-picker"].format(
+          "YYYY-MM-DD HH:mm:ss"
+        ),
+        "month-picker": fieldsValue["month-picker"].format("YYYY-MM"),
+        "range-picker": [
+          rangeValue[0].format("YYYY-MM-DD"),
+          rangeValue[1].format("YYYY-MM-DD"),
+        ],
+        "range-time-picker": [
+          rangeTimeValue[0].format("YYYY-MM-DD HH:mm:ss"),
+          rangeTimeValue[1].format("YYYY-MM-DD HH:mm:ss"),
+        ],
+        "time-picker": fieldsValue["time-picker"].format("HH:mm:ss"),
+      };
+      console.log("Received values of form: ", values);
+    };
+  };
+
+  async function handlePostIssue() {
+    try {
+      const senderIDString = localStorage.getItem("i_id");
+
+      const data = await axios.post("http://localhost:5000/issue", {
+        sender_id: senderIDString !== null && parseInt(senderIDString),
+        i_title: title,
+        i_description: description,
+        i_priority: priority,
+        // i_deadline: 20200910,
+        i_status: "ongoing",
+        receiver_id: receiver,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -123,7 +181,7 @@ const PostIssue: React.FC = () => {
         validateMessages={validateMessages}
       >
         <Form.Item
-          name={["user", "title"]}
+          name={"title"}
           label="Title"
           rules={[
             {
@@ -131,75 +189,107 @@ const PostIssue: React.FC = () => {
             },
           ]}
         >
-          <Input />
+          <Input
+            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+              setTitle(e.target.value);
+            }}
+          />
         </Form.Item>
+        <p>{title}</p>
 
-        <Form.Item
-          name="select"
-          label="Priority"
-          hasFeedback
-          rules={[
-            {
-              message: "Please select priority!",
-            },
-          ]}
-        >
-          <Select placeholder="Please select priority">
-            <Option value="high">High</Option>
-            <Option value="midium">Midium</Option>
-            <Option value="low">Low</Option>
+        <Form.Item name="priority" label="Priority" hasFeedback>
+          <Select
+            placeholder="Please select priority"
+            onChange={(e) => {
+              setPriority(e);
+            }}
+          >
+            {["High", "Medium", "Low"].map((ele) => (
+              <Option value={ele}>{ele}</Option>
+            ))}
           </Select>
         </Form.Item>
+        {console.log(priority)}
 
         <Form.Item
-          name="select"
+          name="department"
           label="Department"
           hasFeedback
           rules={[
             {
+              required: true,
               message: "Please select responsible department!",
             },
           ]}
         >
-          <Select placeholder="Please select department">
-            <Option value="high">High</Option>
-            <Option value="midium">Midium</Option>
-            <Option value="low">Low</Option>
+          <Select
+            placeholder="Please select department"
+            onChange={(e) => {
+              setSelectedDepartment(e);
+            }}
+          >
+            {departments.length !== 0 ? (
+              departments.map((ele) => (
+                <Option value={ele.did}>{ele.department_name}</Option>
+              ))
+            ) : (
+              <Option value="">{""}</Option>
+            )}
           </Select>
         </Form.Item>
+        {console.log(selectedDepartment)}
 
         <Form.Item
-          name="select"
+          name="receiver"
           label="Receiver"
           hasFeedback
           rules={[
-            {
-              message: "Please select responsible person!",
-            },
+            { required: true, message: "Please select responsible person!" },
           ]}
         >
-          <Select placeholder="Please select department">
-            <Option value="high">High</Option>
-            <Option value="midium">Midium</Option>
-            <Option value="low">Low</Option>
+          <Select
+            placeholder="Please select receiver"
+            onChange={(e) => {
+              setReceiver(e);
+            }}
+          >
+            {employees.length >= 1 ? (
+              employees.map((ele) => (
+                <Option value={ele.uid}>{ele.username}</Option>
+              ))
+            ) : (
+              <Option value="">{""}</Option>
+            )}
           </Select>
         </Form.Item>
 
         <Form
           name="time_related_controls"
           {...formItemLayout}
-          onFinish={onFinish_time}
+          onFinish={TimeRelatedForm}
         >
           <Form.Item name="date-time-picker" label="Dealine">
-            <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+            <DatePicker
+              showTime
+              format="YYYY-MM-DD HH:mm:ss"
+              onChange={(e) => console.log(e)}
+            />
           </Form.Item>
         </Form>
 
-        <Form.Item name={["user", "description"]} label="Description">
-          <Input.TextArea />
+        <Form.Item name="description" label="Description">
+          <Input.TextArea
+            onChange={(e) => {
+              setDescription(e.target.value);
+            }}
+          />
         </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-          <Button type="primary" htmlType="submit">
+          <Button
+            type="primary"
+            htmlType="submit"
+            onClick={() => handlePostIssue()}
+          >
             Submit
           </Button>
         </Form.Item>
