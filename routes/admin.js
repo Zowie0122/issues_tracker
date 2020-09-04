@@ -6,24 +6,8 @@ const { hash } = require("bcrypt");
 require("dotenv").config();
 
 // for admin to register a new employee
-router.post("/register", (request, response, next) => {
+router.post("/onboard", (request, response, next) => {
   const { username, email, password, department_id } = request.body;
-
-  const createToken = (result) => {
-    pool.query(
-      "SELECT uid FROM users WHERE email = $1",
-      [email],
-      (err, res) => {
-        if (err) return next(err);
-        const claims = { sub: res.rows[0].uid };
-        const jwt = sign(claims, process.env.TOKEN_SECRET, {
-          expiresIn: "1h",
-        });
-
-        response.status(200).json({ authToken: jwt, userId: res.rows[0].uid });
-      }
-    );
-  };
 
   const insertValue = (result) => {
     if (result.length === 0) {
@@ -33,7 +17,7 @@ router.post("/register", (request, response, next) => {
         [username, email, password, department_id],
         (err, res) => {
           if (err) return next({ message: "Server error when inserting data" });
-          createToken(res.rows);
+          response.status(200).json({ onboarded: true });
         }
       );
     }
@@ -50,10 +34,51 @@ router.post("/register", (request, response, next) => {
   );
 });
 
+// ? change employee's user name
+
+// get all departments info
+router.get("/department", (request, response, next) => {
+  pool.query("SELECT * FROM departments", [], (err, res) => {
+    if (err) return next(err);
+    response.json(res.rows);
+  });
+});
+
 // add new department
+router.post("/department", (request, response, next) => {
+  const new_department = request.body;
+  pool.query(
+    "INSERT INTO departments VALUES($1)",
+    [new_department],
+    (err, res) => {
+      if (err) return next(err);
+      response.json(res.rows);
+    }
+  );
+});
+
+// get all departments' employees info
+router.get("/department/:id", (request, response, next) => {
+  const { id } = request.params;
+  console.log(id);
+  pool.query(
+    "SELECT uid,username FROM users WHERE department_id = $1",
+    [id],
+    (err, res) => {
+      if (err) return next(err);
+      response.json(res.rows);
+    }
+  );
+});
 
 // delete an employee account
-
-// ? change employee's user name
+router.delete("/employee", (request, response, next) => {
+  const { id } = request.body;
+  console.log(id);
+  pool.query("DELETE FROM users WHERE uid=$1", [id], (err, res) => {
+    if (err) return next(err);
+    response.json(res.rows);
+  });
+});
 
 module.exports = router;

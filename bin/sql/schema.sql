@@ -26,7 +26,7 @@ CREATE TABLE issues
     i_status VARCHAR(255),
     receiver_id INT NOT NULL,
     FOREIGN KEY (sender_id) REFERENCES users(uid) ON DELETE CASCADE,
-    FOREIGN KEY (receiver_id) REFERENCES departments(did) ON DELETE CASCADE
+    FOREIGN KEY (receiver_id) REFERENCES users(uid) ON DELETE CASCADE
 );
 
 CREATE TABLE comments
