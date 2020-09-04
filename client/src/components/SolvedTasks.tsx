@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Navbar from "./Navbar";
 import "../App.css";
 import { Table, Spin, Alert } from "antd";
 
@@ -24,7 +23,7 @@ interface AxiosResponse {
   sender_id: number;
 }
 
-const Dashboard: React.FC = () => {
+const SolvedTasks: React.FC = () => {
   const [dataSource, setDataSource] = useState<OBJ[] | null>(null);
 
   const columns = [
@@ -76,7 +75,7 @@ const Dashboard: React.FC = () => {
           headers: {
             authorization: token,
             id: id,
-            status: "ongoing",
+            status: "solved",
           },
         });
 
@@ -109,4 +108,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default SolvedTasks;

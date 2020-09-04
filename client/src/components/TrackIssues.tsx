@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Navbar from "./Navbar";
 import "../App.css";
 import { Table, Spin, Alert } from "antd";
 
@@ -24,7 +23,7 @@ interface AxiosResponse {
   sender_id: number;
 }
 
-const Dashboard: React.FC = () => {
+const TrackIssues: React.FC = () => {
   const [dataSource, setDataSource] = useState<OBJ[] | null>(null);
 
   const columns = [
@@ -72,13 +71,16 @@ const Dashboard: React.FC = () => {
       const id = localStorage.getItem("id");
 
       if (token !== null && id !== null) {
-        const res = await axios.get("http://localhost:5000/user/dashboard", {
-          headers: {
-            authorization: token,
-            id: id,
-            status: "ongoing",
-          },
-        });
+        const res = await axios.get(
+          "http://localhost:5000/user/requested/ongoing",
+          {
+            headers: {
+              authorization: token,
+              id: id,
+              status: "ongoing",
+            },
+          }
+        );
 
         const formated_data = format_data_source(res.data);
         setDataSource(formated_data);
@@ -109,4 +111,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default TrackIssues;

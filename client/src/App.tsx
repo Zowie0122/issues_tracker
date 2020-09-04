@@ -1,22 +1,28 @@
 import React from "react";
 import { Router, RouteComponentProps } from "@reach/router";
-import EmployeeLogin from "./components/EmployeeLogin";
+import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import OngoingTasks from "./components/OngoingTasks";
 import PostIssue from "./components/PostIssue";
-
+import SolvedTasks from "./components/SolvedTasks";
+import Navbar from "./components/Navbar";
+import TrackIssues from "./components/TrackIssues";
 const App: React.FC = () => {
   return (
     <div>
+      <Navbar />
       <Router>
-        <RouterPage path="/" pageComponent={<EmployeeLogin />} />
+        <RouterPage path="/" pageComponent={<Login />} />
         <RouterPage path="/employee/dashboard" pageComponent={<Dashboard />} />
-        <RouterPage
-          path="/employee/assignments/ongoing"
-          pageComponent={<OngoingTasks />}
-        />
-
         <RouterPage path="/employee/post" pageComponent={<PostIssue />} />
+        <RouterPage
+          path="/employee/track_issues"
+          pageComponent={<TrackIssues />}
+        />
+        <RouterPage
+          path="/employee/solved_tasks"
+          pageComponent={<SolvedTasks />}
+        />
       </Router>
     </div>
   );

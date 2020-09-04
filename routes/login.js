@@ -24,7 +24,7 @@ router.post("/employee", (request, response, next) => {
           const token = sign(claims, process.env.TOKEN_SECRET, {
             expiresIn: "1h",
           });
-          response.status(200).json({ auth: token });
+          response.status(200).json({ auth: token, id: res.rows[0].uid });
         } else {
           response.status(400).json({ message: "Wrong Password" });
         }
