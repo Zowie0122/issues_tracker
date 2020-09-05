@@ -1,7 +1,6 @@
 const { Router } = require("express");
 const pool = require("../db/index");
 const router = Router();
-const { verify } = require("jsonwebtoken");
 
 require("dotenv").config();
 

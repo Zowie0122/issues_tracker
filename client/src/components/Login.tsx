@@ -16,7 +16,7 @@ const Login: React.FC = () => {
       if (res.data.auth) {
         localStorage.setItem("auth", res.data.auth);
         localStorage.setItem("id", res.data.id);
-        window.location.href = `http://localhost:3000/employee/dashboard`;
+        window.location.href = `http://localhost:3000/employee/received_ongoing`;
       }
     } catch (err) {
       console.log(err);

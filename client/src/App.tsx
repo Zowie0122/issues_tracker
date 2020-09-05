@@ -32,12 +32,12 @@ const App: React.FC = () => {
           path="/employee/received_solved"
           pageComponent={<ReceivedSolved />}
         />
-      </Router>
 
-      <RouterPage
-        path="/employee/requested_solved"
-        pageComponent={<RequestedSolved />}
-      />
+        <RouterPage
+          path="/employee/requested_solved"
+          pageComponent={<RequestedSolved />}
+        />
+      </Router>
     </div>
   );
 };

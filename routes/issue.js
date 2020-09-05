@@ -27,6 +27,7 @@ router.post("/", (request, response, next) => {
     receiver_id,
   } = request.body;
 
+  console.log(request.body);
   pool.query(
     "INSERT INTO issues (sender_id,i_title,i_description,i_priority,i_status,receiver_id) VALUES($1,$2,$3,$4,$5,$6)",
     [
@@ -39,7 +40,7 @@ router.post("/", (request, response, next) => {
       receiver_id,
     ],
     (err, res) => {
-      if (err) return next(err);
+      if (err) console.log(err);
       response.json({ sended_out: true });
     }
   );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../App.css";
-import { Table, Spin, Alert } from "antd";
+import { Table, Spin } from "antd";
 import Navbar from "./Navbar";
 
 interface OBJ {
@@ -73,7 +73,6 @@ const IssuesTable: React.FC<Props> = ({ url, status }) => {
 
   async function fetch_user_info() {
     try {
-      console.log(url, status);
       const token = localStorage.getItem("auth");
       const id = localStorage.getItem("id");
 
@@ -104,13 +103,7 @@ const IssuesTable: React.FC<Props> = ({ url, status }) => {
       {dataSource !== null && dataSource.length !== 0 ? (
         <Table dataSource={dataSource} columns={columns} />
       ) : (
-        <Spin tip="Loading...">
-          <Alert
-            message="Please wait"
-            description="The data is loading now"
-            type="info"
-          />
-        </Spin>
+        <Spin tip="Loading..."></Spin>
       )}
     </div>
   );

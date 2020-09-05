@@ -36,11 +36,11 @@ const Navbar: React.FC = () => {
       </Menu.Item>
 
       <Menu.Item key="received_solved" icon={<ScheduleOutlined />}>
-        <a href="/employee/received_solved">Solved Tasks History</a>
+        <a href="/employee/received_solved">Solved Tasks</a>
       </Menu.Item>
 
       <Menu.Item key="requested_solved" icon={<ScheduleOutlined />}>
-        <a href="/employee/requested_solved">Your Posts History</a>
+        <a href="/employee/requested_solved">Solved issues</a>
       </Menu.Item>
 
       <Menu.Item key="setting" icon={<SettingOutlined />}>

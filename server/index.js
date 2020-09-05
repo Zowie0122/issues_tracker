@@ -7,6 +7,7 @@ const comment = require("../routes/comment");
 const admin = require("../routes/admin");
 const login = require("../routes/login");
 const test = require("../routes/test");
+const department = require("../routes/department");
 const cors = require("cors");
 
 const app = express();
@@ -16,7 +17,8 @@ app.use(cors());
 app.use("/user", [jsonParser, auth], user);
 app.use("/issue", [jsonParser, auth], issue);
 app.use("/comment", [jsonParser, auth], comment);
-app.use("/admin", [jsonParser], admin);
+app.use("/department", [jsonParser, auth], department);
+app.use("/admin", [jsonParser, auth], admin);
 app.use("/login", [jsonParser], login);
 app.use("/test", jsonParser, test);
 
