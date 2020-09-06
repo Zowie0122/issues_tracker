@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../App.css";
 import { Table, Spin } from "antd";
-import Navbar from "./Navbar";
 
 interface OBJ {
   key: string;
@@ -53,6 +52,15 @@ const IssuesTable: React.FC<Props> = ({ url, status }) => {
       dataIndex: "from",
       key: "from",
     },
+    {
+      title: "Details",
+      key: "details",
+      render: (text: any, record: OBJ) => (
+        <span>
+          <a href={`/issue_details/${record.key}`}>More details</a>
+        </span>
+      ),
+    },
   ];
 
   const format_data_source = (rawData: []): [] => {
@@ -99,7 +107,6 @@ const IssuesTable: React.FC<Props> = ({ url, status }) => {
 
   return (
     <div>
-      <Navbar />
       {dataSource !== null && dataSource.length !== 0 ? (
         <Table dataSource={dataSource} columns={columns} />
       ) : (

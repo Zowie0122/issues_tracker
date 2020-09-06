@@ -1,17 +1,18 @@
 import React from "react";
 import { Router, RouteComponentProps } from "@reach/router";
-import Login from "./components/Login";
+import LoginContainer from "./components/LoginContainer";
 import ReceivedOngoing from "./components/ReceivedOngoing";
 import ReceivedSolved from "./components/ReceivedSolved";
 import RequestedSolved from "./components/RequestedSolved";
 import RequestedOngoing from "./components/RequstedOngoing";
-import PostIssue from "./components/PostIssue";
+import PostIssueContainer from "./components/PostIssueContainer";
+import IssueDetailContainer from "./components/IssueDetailContainer";
 
 const App: React.FC = () => {
   return (
     <div>
       <Router>
-        <RouterPage path="/" pageComponent={<Login />} />
+        <RouterPage path="/" pageComponent={<LoginContainer />} />
 
         <RouterPage
           path="/employee/received_ongoing"
@@ -20,7 +21,7 @@ const App: React.FC = () => {
 
         <RouterPage
           path="/employee/post_new_request"
-          pageComponent={<PostIssue />}
+          pageComponent={<PostIssueContainer />}
         />
 
         <RouterPage
@@ -36,6 +37,11 @@ const App: React.FC = () => {
         <RouterPage
           path="/employee/requested_solved"
           pageComponent={<RequestedSolved />}
+        />
+
+        <RouterPage
+          path="/issue_details/:id"
+          pageComponent={<IssueDetailContainer />}
         />
       </Router>
     </div>

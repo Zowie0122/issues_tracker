@@ -1,12 +1,13 @@
 const { Router, request, response } = require("express");
 const pool = require("../db/index");
+const { user } = require("../db_credectials");
 const router = Router();
 
 // when click on an issue, direct to new page with all comments belongs to this issue
 router.get("/:id", (request, response, next) => {
   const { id } = request.params;
   pool.query(
-    "SELECT * FROM issues LEFT JOIN comments ON issues.iid = comments.issue_id WHERE iid = $1",
+    "SELECT * FROM comments LEFT JOIN users ON c_sender_id = users.uid LEFT JOIN issues ON issue_id = issues.iid WHERE cid = $1",
     [id],
     (err, res) => {
       if (err) return next(err);

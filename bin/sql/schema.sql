@@ -20,7 +20,7 @@ CREATE TABLE issues
     sender_id INT NOT NULL,
     i_title VARCHAR(255),
     i_description TEXT,
-    i_data_created TIMESTAMP,
+    i_data_created TIMESTAMP NOT NULL DEFAULT NOW(),
     i_priority VARCHAR(255),
     i_deadline TIMESTAMP,
     i_status VARCHAR(255),
@@ -32,19 +32,14 @@ CREATE TABLE issues
 CREATE TABLE comments
 (
     cid SERIAL PRIMARY KEY,
+    c_date_created TIMESTAMP NOT NULL DEFAULT NOW(),
     issue_id INT NOT NULL,
+    c_sender_id INT NOT NULL,
     c_description TEXT,
-    c_date TIMESTAMP,
-    FOREIGN KEY (issue_id) REFERENCES issues(iid) ON DELETE CASCADE
+    FOREIGN KEY (issue_id) REFERENCES issues(iid) ON DELETE CASCADE,
+    FOREIGN KEY (c_sender_id) REFERENCES users(uid) ON DELETE CASCADE
 );
 
 
-CREATE TABLE users_comments
-(
-    user_id INT NOT NULL,
-    comment_id INT NOT NULL,
-    PRIMARY KEY (user_id, comment_id),
-    FOREIGN KEY (user_id) REFERENCES users(uid) ON UPDATE CASCADE,
-    FOREIGN KEY (comment_id) REFERENCES comments(cid) ON UPDATE CASCADE
-);
+
 

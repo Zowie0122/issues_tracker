@@ -36,4 +36,23 @@ router.get("/department/:id", (request, response, next) => {
   );
 });
 
+router.get("/allcomments", (request, response, next) => {
+  pool.query("SELECT * FROM comments", [], (err, res) => {
+    if (err) return next(err);
+    response.json(res.rows);
+  });
+});
+
+router.get("/comment/:id", (request, response, next) => {
+  const { id } = request.params;
+  pool.query(
+    "SELECT * FROM comments LEFT JOIN users ON c_sender_id = users.uid LEFT JOIN issues ON issue_id = issues.iid WHERE cid = $1",
+    [id],
+    (err, res) => {
+      if (err) return next(err);
+      response.json(res.rows);
+    }
+  );
+});
+
 module.exports = router;

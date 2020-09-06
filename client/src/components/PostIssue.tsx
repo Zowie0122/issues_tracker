@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
 import axios from "axios";
-import Navbar from "./Navbar";
 import { Form, Input, Button, Select, DatePicker, message } from "antd";
 
 const { Option } = Select;
@@ -181,8 +180,6 @@ const PostIssue: React.FC = () => {
 
   return (
     <div>
-      <Navbar />
-
       {finishMessage === "" ? (
         <Form
           {...layout}

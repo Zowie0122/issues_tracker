@@ -19,9 +19,9 @@ const Navbar: React.FC = () => {
   return (
     <Menu
       onMouseOver={handleHover}
+      theme="dark"
       selectedKeys={[current]}
       mode="inline"
-      style={{ width: 256 }}
     >
       <Menu.Item key="received_ongoing" icon={<FormOutlined />}>
         <a href="/employee/received_ongoing">Ongoing Tasks</a>
