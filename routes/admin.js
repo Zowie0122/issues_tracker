@@ -1,8 +1,6 @@
 const { Router } = require("express");
 const pool = require("../db/index");
 const router = Router();
-const { sign } = require("jsonwebtoken");
-const { hash } = require("bcrypt");
 require("dotenv").config();
 
 // for admin to register a new employee
@@ -48,7 +46,7 @@ router.post("/department", (request, response, next) => {
 });
 
 // delete an employee account
-router.delete("/employee", (request, response, next) => {
+router.delete("/delete", (request, response, next) => {
   const { id } = request.body;
   console.log(id);
   pool.query("DELETE FROM users WHERE uid=$1", [id], (err, res) => {

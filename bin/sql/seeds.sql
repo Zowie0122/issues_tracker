@@ -14,13 +14,17 @@ VALUES
 INSERT INTO users
     (username,email,password,department_id)
 VALUES
-    ('admin', 'admin@zowie.com', 'admin', 1),
-    ('user1', 'user1@zowie.com', 'user1', 1),
-    ('user1', 'user2@zowie.com', 'user2', 2),
-    ('user3', 'user3@zowie.com', 'user3', 3),
-    ('user4', 'user4@zowie.com', 'user4', 4),
-    ('user5', 'user5@zowie.com', 'user5', 3),
-    ('user6', 'user6@zowie.com', 'user6', 5);
+    ('admin', 'admin@zowie.com', 'adminpw', 1),
+    ('f1', 'f1@zowie.com', 'userpw', 2),
+    ('f2', 'f2@zowie.com', 'userpw', 2),
+    ('b1', 'b1@zowie.com', 'userpw', 3),
+    ('b2', 'b23@zowie.com', 'userpw', 3),
+    ('p1', 'p1@zowie.com', 'userpw', 4),
+    ('p2', 'p2@zowie.com', 'userpw', 4),
+    ('t1', 't1@zowie.com', 'userpw', 5),
+    ('t2', 't2@zowie.com', 'userpw', 5),
+    ('s1', 's1@zowie.com', 'userpw', 6),
+    ('s2', 's2@zowie.com', 'userpw', 6);
 
 INSERT INTO issues
     (
@@ -32,14 +36,14 @@ INSERT INTO issues
     i_status,
     receiver_id)
 VALUES(
-        2, 'Need to have a new routes', 'New routes for comp-A', 'High', '2020-12-20 20:45:27', 'ongoing', 3
+        2, 'API not working', 'API not working', 'High', '2020-09-20 20:45:27', 'ongoing', 4
     ),
-    (4, 'Need to have a new routes', 'New routes for comp-A', 'High', '2020-12-20 20:45:27', 'ongoing', 2),
-    (4, 'Need to have a new routes', 'New routes for comp-A', 'High', '2020-12-20 20:45:27', 'ongoing', 3),
+    (4, 'let me know the schedule', 'let me know the schedule', 'High', '2020-09-20 20:45:27', 'ongoing', 5),
+    (5, 'front-end need to fix the ui asap', 'front-end need to fix the ui asap', 'High', '2020-09-20 20:45:27', 'ongoing', 2),
     (
-        2, 'Need to have a new routes', 'New routes for comp-A', 'High', '2020-12-20 20:45:27', 'ongoing', 3
+        2, 'Need to have a new routes', 'New routes for comp-A', 'High', '2020-08-20 20:45:27', 'solved', 5
     ),
-    (4, 'Need to have a new routes', 'New routes for comp-A', 'High', '2020-12-20 20:45:27', 'ongoing', 2);
+    (5, 'Please confirm the data', 'Please confirm the data', 'High', '2020-08-20 20:45:27', 'solved', 2);
 
 INSERT INTO comments
     (
@@ -47,11 +51,11 @@ INSERT INTO comments
     c_sender_id,
     c_description
     )
-VALUES(1, 2, 'well noted'),
-    (1, 2, 'well noted'),
-    (2, 4, 'well noted'),
-    (3, 2, 'well noted'),
-    (4, 4, 'well noted');
+VALUES(1, 4, 'well noted'),
+    (1, 5, 'well noted'),
+    (3, 2 , 'well noted'),
+    (4, 5, 'well noted'),
+    (5, 2, 'well noted');
 
   
 

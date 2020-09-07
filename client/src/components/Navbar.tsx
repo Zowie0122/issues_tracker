@@ -16,6 +16,10 @@ const Navbar: React.FC = () => {
     setCurrent(e.key);
   };
 
+  const logoutHandler = () => {
+    localStorage.clear();
+  };
+
   return (
     <Menu
       onMouseOver={handleHover}
@@ -44,9 +48,15 @@ const Navbar: React.FC = () => {
       </Menu.Item>
 
       <Menu.Item key="setting" icon={<SettingOutlined />}>
-        <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-          Change Password
-        </a>
+        <a href="/setting">Change Password</a>
+      </Menu.Item>
+
+      <Menu.Item
+        key="logout"
+        icon={<SettingOutlined />}
+        onClick={logoutHandler}
+      >
+        <a href="/">Logout</a>
       </Menu.Item>
     </Menu>
   );

@@ -9,14 +9,19 @@ const Login: React.FC = () => {
 
   async function loginHandler() {
     try {
-      const res = await axios.post("http://localhost:5000/login/employee", {
+      const res = await axios.post("http://localhost:5000/login/", {
         email: email,
         password: password,
       });
       if (res.data.auth) {
         localStorage.setItem("auth", res.data.auth);
         localStorage.setItem("id", res.data.id);
-        window.location.href = `http://localhost:3000/employee/received_ongoing`;
+        console.log(res.data.id);
+        if (res.data.id === 1) {
+          window.location.href = `http://localhost:3000/admin/`;
+        } else {
+          window.location.href = `http://localhost:3000/employee/received_ongoing`;
+        }
       }
     } catch (err) {
       console.log(err);
@@ -69,7 +74,7 @@ const Login: React.FC = () => {
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item style={{ textAlign: "center" }}>
           <Button
             type="primary"
             onClick={() => {

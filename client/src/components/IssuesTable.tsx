@@ -39,7 +39,7 @@ const IssuesTable: React.FC<Props> = ({ url, status }) => {
     },
     {
       title: "Priotiry",
-      dataIndex: "priotirye",
+      dataIndex: "priority",
       key: "priotiry",
     },
     {
@@ -65,7 +65,7 @@ const IssuesTable: React.FC<Props> = ({ url, status }) => {
 
   const format_data_source = (rawData: []): [] => {
     const formated_array: OBJ[] | any = [];
-
+    console.log(rawData);
     rawData.forEach((data: AxiosResponse) => {
       let obj: OBJ = {
         key: data.iid.toString(),

@@ -7,7 +7,7 @@ const router = Router();
 router.get("/:id", (request, response, next) => {
   const { id } = request.params;
   pool.query(
-    "SELECT * FROM comments LEFT JOIN users ON c_sender_id = users.uid LEFT JOIN issues ON issue_id = issues.iid WHERE cid = $1",
+    "SELECT * FROM comments LEFT JOIN users ON c_sender_id = users.uid LEFT JOIN issues ON issue_id = issues.iid WHERE issue_id = $1",
     [id],
     (err, res) => {
       if (err) return next(err);
