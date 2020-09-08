@@ -98,15 +98,15 @@ const IssueDetail: React.FC = () => {
     const issue_data = await axios.get(url, { headers: headers });
     console.log("###", issue_data.data[0]);
     const issueInfo_detail = {
-      created: issue_data.data[0].i_data_created,
-      deadline: issue_data.data[0].i_deadline,
-      description: issue_data.data[0].i_description,
-      priority: issue_data.data[0].i_priority,
-      status: issue_data.data[0].i_status,
-      title: issue_data.data[0].i_title,
-      receiver_id: issue_data.data[0].receiver_id,
-      sender: issue_data.data[0].username,
-      sender_id: issue_data.data[0].sender_id,
+      Created: issue_data.data[0].i_data_created,
+      Deadline: issue_data.data[0].i_deadline,
+      Description: issue_data.data[0].i_description,
+      Priority: issue_data.data[0].i_priority,
+      Status: issue_data.data[0].i_status,
+      Title: issue_data.data[0].i_title,
+      Receiver_id: issue_data.data[0].receiver_id,
+      Sender: issue_data.data[0].username,
+      Sender_id: issue_data.data[0].sender_id,
     };
     setIssueInfo(issueInfo_detail);
 
@@ -442,7 +442,7 @@ const IssueDetail: React.FC = () => {
             author={comment.username}
             avatar={
               <Avatar
-                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                src="https://library.kissclipart.com/20180904/jbw/kissclipart-white-user-icon-png-clipart-computer-icons-clip-ar-e1de9d82983cd12e.jpg"
                 alt="Han Solo"
               />
             }

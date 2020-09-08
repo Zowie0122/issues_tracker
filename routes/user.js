@@ -60,10 +60,36 @@ router.get("/requested/solved", (request, response, next) => {
 });
 
 router.get("/", (request, response, next) => {
-  pool.query("SELECT uid, username FROM users", [], (err, res) => {
+  pool.query(
+    "SELECT * FROM users LEFT JOIN departments ON department_id = did",
+    [],
+    (err, res) => {
+      if (err) return next(err);
+      response.json(res.rows);
+    }
+  );
+});
+
+router.get("/:id", (request, response, next) => {
+  const { id } = request.params;
+  pool.query("SELECT * FROM users WHERE uid = $1", [id], (err, res) => {
     if (err) return next(err);
     response.json(res.rows);
   });
+});
+
+router.put("/:id/password", (request, response, next) => {
+  const { id } = request.params;
+  const { new_password } = request.body;
+  console.log(id, new_password);
+  pool.query(
+    "UPDATE users SET password = $2 WHERE uid = $1",
+    [id, new_password],
+    (err, res) => {
+      if (err) return next(err);
+      response.json({ updated_password: true });
+    }
+  );
 });
 
 module.exports = router;

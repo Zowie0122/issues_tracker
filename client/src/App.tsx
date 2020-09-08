@@ -7,6 +7,10 @@ import RequestedSolved from "./components/RequestedSolved";
 import RequestedOngoing from "./components/RequstedOngoing";
 import PostIssueContainer from "./components/PostIssueContainer";
 import IssueDetailContainer from "./components/IssueDetailContainer";
+import OnboardContainer from "./components/admin/OnboardContainer";
+import DeleteEmployeeContainer from "./components/admin/DeleteEmployeeContainer";
+import AddDepartmentContainer from "./components/admin/AddDepartmentContainer";
+import PasswordResetContainer from "./components/UpdatePasswordContainer";
 
 const App: React.FC = () => {
   return (
@@ -38,10 +42,29 @@ const App: React.FC = () => {
           path="/employee/requested_solved"
           pageComponent={<RequestedSolved />}
         />
+        <RouterPage
+          path="/employee/password_reset"
+          pageComponent={<PasswordResetContainer />}
+        />
 
         <RouterPage
           path="/issue_details/:id"
           pageComponent={<IssueDetailContainer />}
+        />
+
+        <RouterPage
+          path="/admin/onboard"
+          pageComponent={<OnboardContainer />}
+        />
+
+        <RouterPage
+          path="/admin/delete"
+          pageComponent={<DeleteEmployeeContainer />}
+        />
+
+        <RouterPage
+          path="/admin/add_department"
+          pageComponent={<AddDepartmentContainer />}
         />
       </Router>
     </div>

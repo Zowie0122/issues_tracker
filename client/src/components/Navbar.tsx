@@ -18,6 +18,7 @@ const Navbar: React.FC = () => {
 
   const logoutHandler = () => {
     localStorage.clear();
+    window.location.href = "http://localhost:3000";
   };
 
   return (
@@ -48,7 +49,7 @@ const Navbar: React.FC = () => {
       </Menu.Item>
 
       <Menu.Item key="setting" icon={<SettingOutlined />}>
-        <a href="/setting">Change Password</a>
+        <a href="/employee/password_reset">Change Password</a>
       </Menu.Item>
 
       <Menu.Item

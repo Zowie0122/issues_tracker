@@ -7,7 +7,6 @@ module.exports = (req, res, next) => {
     const token = req.headers.authorization;
     const decodedToken = verify(token, process.env.TOKEN_SECRET);
     const userId = decodedToken.userId.toString();
-    console.log(id);
     if (id && id !== userId && id !== "1") {
       throw "Admin Authentication Failed";
     } else {

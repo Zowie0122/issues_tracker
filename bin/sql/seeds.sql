@@ -14,17 +14,17 @@ VALUES
 INSERT INTO users
     (username,email,password,department_id)
 VALUES
-    ('admin', 'admin@zowie.com', 'adminpw', 1),
-    ('f1', 'f1@zowie.com', 'userpw', 2),
-    ('f2', 'f2@zowie.com', 'userpw', 2),
-    ('b1', 'b1@zowie.com', 'userpw', 3),
-    ('b2', 'b23@zowie.com', 'userpw', 3),
-    ('p1', 'p1@zowie.com', 'userpw', 4),
-    ('p2', 'p2@zowie.com', 'userpw', 4),
-    ('t1', 't1@zowie.com', 'userpw', 5),
-    ('t2', 't2@zowie.com', 'userpw', 5),
-    ('s1', 's1@zowie.com', 'userpw', 6),
-    ('s2', 's2@zowie.com', 'userpw', 6);
+    ('admin', 'admin@abc.com', 'adminpw', 1),
+    ('Zowie Min', 'zowie.m@abc.com', 'userpw', 2),
+    ('John Doe', 'john.d@abc.com', 'userpw', 2),
+    ('Bug Bunny', 'bug.b@abc.com', 'userpw', 3),
+    ('Hana Mori', 'hana.m@abc.com', 'userpw', 3),
+    ('Micheal Jordan', 'micheal.j@abc.com', 'userpw', 4),
+    ('Lucy Tan', 'lucy.t@abc.com', 'userpw', 4),
+    ('James Bond', 'james.b@abc.com', 'userpw', 5),
+    ('Luna Cobb', 'luna.c@abc.com', 'userpw', 5),
+    ('Ciara Fritz', 'ciara.f@abc.com', 'userpw', 6),
+    ('Clair Wang', 'clair.w@abc.com', 'userpw', 6);
 
 INSERT INTO issues
     (

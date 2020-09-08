@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Layout } from "antd";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import Navbar from "./Navbar";
-import "../App.css";
+import "../../App.css";
 
 interface ParentCompProps {
   childComp?: React.ReactNode;
@@ -10,7 +10,7 @@ interface ParentCompProps {
 
 const { Header, Content, Footer, Sider } = Layout;
 
-const Layouts: React.FC<ParentCompProps> = (props) => {
+const AdminLayouts: React.FC<ParentCompProps> = (props) => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const toogle = () => {
     setCollapsed(true);
@@ -59,4 +59,4 @@ const Layouts: React.FC<ParentCompProps> = (props) => {
   );
 };
 
-export default Layouts;
+export default AdminLayouts;

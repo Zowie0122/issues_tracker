@@ -34,24 +34,25 @@ router.post("/onboard", (request, response, next) => {
 
 // add new department
 router.post("/department", (request, response, next) => {
-  const new_department = request.body;
+  const { new_department } = request.body;
+  console.log(new_department);
   pool.query(
-    "INSERT INTO departments VALUES($1)",
+    "INSERT INTO departments (department_name) VALUES($1)",
     [new_department],
     (err, res) => {
       if (err) return next(err);
-      response.json(res.rows);
+      response.json({ added_department: true });
     }
   );
 });
 
 // delete an employee account
-router.delete("/delete", (request, response, next) => {
-  const { id } = request.body;
-  console.log(id);
+router.delete("/delete/:id", (request, response, next) => {
+  const { id } = request.params;
+
   pool.query("DELETE FROM users WHERE uid=$1", [id], (err, res) => {
     if (err) return next(err);
-    response.json(res.rows);
+    response.json({ user_deleted: true });
   });
 });
 
