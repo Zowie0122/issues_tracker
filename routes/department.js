@@ -12,7 +12,7 @@ router.get("/", (request, response, next) => {
   });
 });
 
-// get all departments' employees info
+// get a department' employees info
 router.get("/:id", (request, response, next) => {
   const { id } = request.params;
   console.log(id);

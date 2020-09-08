@@ -5,7 +5,7 @@ import { Form, Input, Button, Select, DatePicker, message } from "antd";
 
 const { Option } = Select;
 
-const layout = {
+export const layout = {
   labelCol: {
     span: 8,
   },
@@ -14,7 +14,7 @@ const layout = {
   },
 };
 
-const formItemLayout = {
+export const formItemLayout = {
   labelCol: {
     xs: {
       span: 24,
@@ -52,7 +52,7 @@ const rangeConfig = {
   ],
 };
 
-const validateMessages = {
+export const validateMessages = {
   required: "${label} is required!",
   types: {
     email: "${label} is not validate email!",
@@ -87,7 +87,7 @@ const PostIssue: React.FC = () => {
   const [selectedDepartment, setSelectedDepartment] = useState<any>("");
 
   const [receiver, setReceiver] = useState<any>("");
-  const [deadline, setDeadline] = useState<string | null>("");
+  const [deadline, setDeadline] = useState<any>("");
   const [description, setDescription] = useState<string | null>("");
 
   const [finishMessage, setFinishMessage] = useState<string>("");
@@ -266,6 +266,7 @@ const PostIssue: React.FC = () => {
               )}
             </Select>
           </Form.Item>
+          {console.log("employee array", employees)}
 
           <Form
             name="time_related_controls"
@@ -276,7 +277,7 @@ const PostIssue: React.FC = () => {
               <DatePicker
                 showTime
                 format="YYYY-MM-DD HH:mm:ss"
-                onChange={(e) => console.log(e)}
+                onChange={(e) => setDeadline(e?.format())}
               />
             </Form.Item>
           </Form>
@@ -286,6 +287,7 @@ const PostIssue: React.FC = () => {
               onChange={(e) => {
                 setDescription(e.target.value);
               }}
+              rows={10}
             />
           </Form.Item>
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>

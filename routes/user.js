@@ -59,4 +59,11 @@ router.get("/requested/solved", (request, response, next) => {
   );
 });
 
+router.get("/", (request, response, next) => {
+  pool.query("SELECT uid, username FROM users", [], (err, res) => {
+    if (err) return next(err);
+    response.json(res.rows);
+  });
+});
+
 module.exports = router;

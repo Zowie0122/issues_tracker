@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout } from "antd";
+import { Layout, Typography } from "antd";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import Navbar from "./Navbar";
 import "../App.css";
@@ -9,6 +9,7 @@ interface ParentCompProps {
 }
 
 const { Header, Content, Footer, Sider } = Layout;
+const { Text, Link } = Typography;
 
 const Layouts: React.FC<ParentCompProps> = (props) => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
@@ -25,18 +26,28 @@ const Layouts: React.FC<ParentCompProps> = (props) => {
             onClick: toogle,
           }
         )}
-        AA Corperation
+        <Text disabled>Ant Design (disabled)</Text>
       </Header>
       <Layout>
-        <Sider trigger={null} collapsible collapsed={collapsed}>
+        <Sider
+          trigger={null}
+          collapsible
+          collapsed={collapsed}
+          style={{
+            overflow: "auto",
+            height: "100vh",
+
+            left: 0,
+          }}
+        >
           <div className="logo" />
           <Navbar />
         </Sider>
-        <Layout className="site-layout">
+        <Layout className="site-layout" style={{ marginRight: 200 }}>
           <Content
             className="site-layout-background"
             style={{
-              margin: "24px 16px",
+              margin: "24px 16px 0",
               padding: 24,
               minHeight: 280,
             }}

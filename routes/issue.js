@@ -3,11 +3,20 @@ const pool = require("../db/index");
 const { user } = require("../db_credectials");
 const router = Router();
 
-// when click on an issue, direct to new page with all comments belongs to this issue
+// issue basic info
 router.get("/:id", (request, response, next) => {
   const { id } = request.params;
+  pool.query("SELECT * FROM issues WHERE iid = $1", [id], (err, res) => {
+    if (err) return next(err);
+    response.json(res.rows);
+  });
+});
+
+// issue with comments
+router.get("/:id/comments", (request, response, next) => {
+  const { id } = request.params;
   pool.query(
-    "SELECT * FROM comments LEFT JOIN users ON c_sender_id = users.uid LEFT JOIN issues ON issue_id = issues.iid WHERE issue_id = $1",
+    "SELECT * FROM comments LEFT JOIN issues ON issue_id=iid LEFT JOIN users ON c_sender_id = uid WHERE iid = $1",
     [id],
     (err, res) => {
       if (err) return next(err);

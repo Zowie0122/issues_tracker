@@ -55,4 +55,16 @@ router.get("/comment/:id", (request, response, next) => {
   );
 });
 
+router.get("/:id/comments", (request, response, next) => {
+  const { id } = request.params;
+  pool.query(
+    "SELECT * FROM comments LEFT JOIN issues ON issue_id=iid WHERE iid = $1",
+    [id],
+    (err, res) => {
+      if (err) return next(err);
+      response.json(res.rows);
+    }
+  );
+});
+
 module.exports = router;
