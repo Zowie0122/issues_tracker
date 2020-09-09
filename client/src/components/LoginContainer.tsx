@@ -4,7 +4,7 @@ import { Row, Col } from "antd";
 import { Layout } from "antd";
 import "../App.css";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content } = Layout;
 
 const LayoutContainer: React.FC = () => {
   return (

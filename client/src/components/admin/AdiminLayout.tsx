@@ -8,7 +8,7 @@ interface ParentCompProps {
   childComp?: React.ReactNode;
 }
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 
 const AdminLayouts: React.FC<ParentCompProps> = (props) => {
   const [collapsed, setCollapsed] = useState<boolean>(false);

@@ -64,9 +64,9 @@ const headers = {
   authorization: localStorage.getItem("auth"),
 };
 
-const iid = window.location.pathname.slice(15);
+const iid = window.location.pathname.slice(25);
 
-const IssueDetail: React.FC = () => {
+const RequestedIssueDetail: React.FC = () => {
   const [issueInfo, setIssueInfo] = useState<any>({});
   const [comments, setComments] = useState<comment[] | null>();
 
@@ -91,38 +91,40 @@ const IssueDetail: React.FC = () => {
   const [deadline, setDeadline] = useState<any>("");
   const [description, setDescription] = useState<any>("");
   const [status, setStatus] = useState<any>("");
+  const [initialDepartment, setInitialDepartment] = useState<any>("");
 
   const get_issue_info = async () => {
-    const url = `http://localhost:5000/issue/${iid}`;
-
+    const url = `http://localhost:5000/issue/sent/${iid}`;
     const issue_data = await axios.get(url, { headers: headers });
-    console.log("###", issue_data.data[0]);
+
+    console.log(issue_data);
     const issueInfo_detail = {
+      Title: issue_data.data[0].i_title,
+      Receiver: issue_data.data[0].username,
+      Status: issue_data.data[0].i_status,
       Created: issue_data.data[0].i_data_created,
       Deadline: issue_data.data[0].i_deadline,
-      Description: issue_data.data[0].i_description,
       Priority: issue_data.data[0].i_priority,
-      Status: issue_data.data[0].i_status,
-      Title: issue_data.data[0].i_title,
-      Receiver_id: issue_data.data[0].receiver_id,
-      Sender: issue_data.data[0].username,
-      Sender_id: issue_data.data[0].sender_id,
+      Description: issue_data.data[0].i_description,
     };
+    setReceiverUsername(issue_data.data[0].username);
     setIssueInfo(issueInfo_detail);
-
     setTitle(issue_data.data[0].i_title);
     setPriority(issue_data.data[0].i_priority);
     setStatus(issue_data.data[0].i_status);
     setDescription(issue_data.data[0].i_description);
     setReceiver(issue_data.data[0].receiver_id);
+    setDeadline(issue_data.data[0].i_deadline);
 
     const d = departments.find(
       (ele) => ele.did == issue_data.data[0].department_id
     );
 
     if (d) {
-      setSelectedDepartment(d.department_name);
+      setInitialDepartment(d);
     }
+
+    console.log("D", departments, issue_data.data[0].did);
 
     const e = employees.find(
       (ele) => ele.uid == issue_data.data[0].receiver_id
@@ -137,7 +139,6 @@ const IssueDetail: React.FC = () => {
     const url = `http://localhost:5000/issue/${iid}/comments`;
 
     const res = await axios(url, { headers: headers });
-    console.log("Comment Res", res.data);
     let comments: Array<comment> = [];
     res.data.forEach((ele: comment) => {
       comments.push({
@@ -152,22 +153,21 @@ const IssueDetail: React.FC = () => {
 
   async function handleEditIssue() {
     try {
-      const senderIDString = localStorage.getItem("id");
       const url = `http://localhost:5000/issue/${iid}`;
-      console.log(receiver);
       const res = await axios.put(
         url,
         {
           i_title: title,
           i_description: description,
           i_priority: priority,
-          i_deadline: "2020-09-20T10:04:15.047Z",
+          i_deadline: deadline,
           i_status: status,
           receiver_id: receiver,
           department_id: selectedDepartment,
         },
         { headers: headers }
       );
+      console.log("####", res.data);
       if (res.data.edited) {
         setShowEdit(false);
         window.location.href = window.location.pathname;
@@ -190,9 +190,6 @@ const IssueDetail: React.FC = () => {
   const fetch_departments_employees = async () => {
     try {
       const d = departments.find((ele) => ele.did == selectedDepartment);
-      console.log(d);
-      console.log(departments);
-      console.log(selectedDepartment);
       if (d) {
         const url = `http://localhost:5000/department/${d.did}`;
         const employees_data = await axios.get(url, { headers: headers });
@@ -209,11 +206,9 @@ const IssueDetail: React.FC = () => {
     try {
       const url = "http://localhost:5000/user";
       const res = await axios.get(url, { headers: headers });
-      console.log(res.data);
-      console.log(issueInfo.receiver_id);
+
       const r = res.data.find((ele: Ir) => ele.uid == issueInfo.receiver_id);
-      console.log(r.username);
-      setReceiverUsername(r.username);
+
       setAllEmployees(res.data);
     } catch (err) {
       console.log(err);
@@ -248,16 +243,16 @@ const IssueDetail: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    get_issue_info();
+    fetch_departments();
   }, [allEmployees]);
+
+  useEffect(() => {
+    get_issue_info();
+  }, [departments]);
 
   useEffect(() => {
     fetch_comments();
   }, [issueInfo]);
-
-  useEffect(() => {
-    fetch_departments();
-  }, [allEmployees]);
 
   useEffect(() => {
     fetch_departments_employees();
@@ -272,7 +267,8 @@ const IssueDetail: React.FC = () => {
               Object.keys(issueInfo).map((key: string) => (
                 <h4>
                   {/* @ts-ignore */}
-                  {key}:{issueInfo[key]}
+                  {key}:{"    "}
+                  {issueInfo[key]}
                 </h4>
               ))}
           </Card>
@@ -284,16 +280,15 @@ const IssueDetail: React.FC = () => {
           >
             Add Comment
           </Button>
-          {issueInfo.sender_id == headers.id && (
-            <Button
-              type="primary"
-              onClick={() => {
-                setShowEdit(true);
-              }}
-            >
-              Edit
-            </Button>
-          )}
+
+          <Button
+            type="primary"
+            onClick={() => {
+              setShowEdit(true);
+            }}
+          >
+            Edit
+          </Button>
         </Card>
       ) : null}
 
@@ -367,7 +362,7 @@ const IssueDetail: React.FC = () => {
             ]}
           >
             <Select
-              defaultValue={selectedDepartment}
+              defaultValue={initialDepartment.did}
               onChange={(e) => {
                 setSelectedDepartment(e);
               }}
@@ -377,10 +372,13 @@ const IssueDetail: React.FC = () => {
                   <Option value={ele.did}>{ele.department_name}</Option>
                 ))
               ) : (
-                <Option value="">{""}</Option>
+                <Option value={initialDepartment.did}>
+                  {initialDepartment.department_name}
+                </Option>
               )}
             </Select>
           </Form.Item>
+          {console.log(initialDepartment)}
 
           <Form.Item
             name="receiver"
@@ -393,7 +391,7 @@ const IssueDetail: React.FC = () => {
             <Select
               defaultValue={receiver}
               onChange={(e) => {
-                setReceiver(e.target.value);
+                setReceiver(e);
               }}
             >
               {employees.length >= 1 ? (
@@ -401,17 +399,18 @@ const IssueDetail: React.FC = () => {
                   <Option value={ele.uid}>{ele.username}</Option>
                 ))
               ) : (
-                <Option value="">{""}</Option>
+                <Option value={receiver}>{receiverUsername}</Option>
               )}
             </Select>
           </Form.Item>
 
           <Form name="time_related_controls" {...formItemLayout}>
-            <Form.Item name="date-time-picker" label="Dealine">
+            <Form.Item name="date-time-picker" label="Deadline">
               <DatePicker
                 showTime
+                defaultValue={moment(deadline, "YYYY-MM-DD HH:mm:ss")}
                 format="YYYY-MM-DD HH:mm:ss"
-                onChange={(e) => console.log(e)}
+                onChange={(e) => setDeadline(e)}
               />
             </Form.Item>
           </Form>
@@ -441,10 +440,7 @@ const IssueDetail: React.FC = () => {
           <Comment
             author={comment.username}
             avatar={
-              <Avatar
-                src="https://library.kissclipart.com/20180904/jbw/kissclipart-white-user-icon-png-clipart-computer-icons-clip-ar-e1de9d82983cd12e.jpg"
-                alt="Han Solo"
-              />
+              <Avatar src="https://library.kissclipart.com/20180904/jbw/kissclipart-white-user-icon-png-clipart-computer-icons-clip-ar-e1de9d82983cd12e.jpg" />
             }
             content={<p>{comment.c_description}</p>}
             datetime={
@@ -476,4 +472,4 @@ const IssueDetail: React.FC = () => {
   );
 };
 
-export default IssueDetail;
+export default RequestedIssueDetail;

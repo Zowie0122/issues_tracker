@@ -18,7 +18,7 @@ const Login: React.FC = () => {
         localStorage.setItem("id", res.data.id);
         console.log(res.data.id);
         if (res.data.id === 1) {
-          window.location.href = `http://localhost:3000/admin/`;
+          window.location.href = `http://localhost:3000/admin/onboard`;
         } else {
           window.location.href = `http://localhost:3000/employee/received_ongoing`;
         }

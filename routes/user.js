@@ -8,7 +8,7 @@ require("dotenv").config();
 router.get("/received/ongoing", (request, response, next) => {
   const { id, status } = request.headers;
   pool.query(
-    "SELECT * FROM issues WHERE receiver_id=$1 AND i_status=$2",
+    "SELECT * FROM issues LEFT JOIN users ON sender_id = uid WHERE receiver_id=$1 AND i_status=$2",
     [id, status],
     (err, res) => {
       if (err) {
@@ -24,7 +24,7 @@ router.get("/received/ongoing", (request, response, next) => {
 router.get("/received/solved", (request, response, next) => {
   const { id, status } = request.headers;
   pool.query(
-    "SELECT * FROM issues WHERE receiver_id = $1 AND i_status = $2",
+    "SELECT * FROM issues LEFT JOIN users ON sender_id = uid WHERE receiver_id = $1 AND i_status = $2",
     [id, status],
     (err, res) => {
       if (err) return next(err);
@@ -37,7 +37,7 @@ router.get("/received/solved", (request, response, next) => {
 router.get("/requested/ongoing", (request, response, next) => {
   const { id, status } = request.headers;
   pool.query(
-    "SELECT * FROM issues WHERE sender_id = $1 AND i_status = $2",
+    "SELECT * FROM issues LEFT JOIN users ON receiver_id = uid WHERE sender_id = $1 AND i_status = $2",
     [id, status],
     (err, res) => {
       if (err) return next(err);
@@ -50,7 +50,7 @@ router.get("/requested/ongoing", (request, response, next) => {
 router.get("/requested/solved", (request, response, next) => {
   const { id, status } = request.headers;
   pool.query(
-    "SELECT * FROM issues WHERE sender_id = $1 AND i_status = $2",
+    "SELECT * FROM issues LEFT JOIN users ON receiver_id = uid WHERE sender_id = $1 AND i_status = $2",
     [id, status],
     (err, res) => {
       if (err) return next(err);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Form, Input, Button, Select } from "antd";
+import { Form, Button, Select } from "antd";
 import "../../App.css";
 import { layout, validateMessages } from "../PostIssue";
 
@@ -12,7 +12,6 @@ const headers = {
 };
 
 const DeleteEmployee: React.FC = () => {
-  const [allUsers, setAllUsers] = useState<any>();
   const [allDepartments, setAllDepartments] = useState<any>();
   const [selectedDepartment, setSelectedDepartment] = useState<any>();
   const [employees, setEmployees] = useState<{}[]>([]);

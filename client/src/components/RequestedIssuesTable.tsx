@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../App.css";
-import { Table, Spin } from "antd";
+import { Table } from "antd";
 
 interface OBJ {
   key: string;
   title: string;
   priority: string;
   deadline: string;
-  from: string;
+  to: string;
 }
 
 interface AxiosResponse {
-  i_data_created: null;
-  i_deadline: null;
+  i_data_created: string;
+  i_deadline: string;
   i_description: string;
   i_priority: string;
   i_status: string;
   i_title: string;
   iid: number;
-  receiver_id: number;
-  sender_id: number;
+  username: string;
 }
 
 interface Props {
@@ -28,7 +27,7 @@ interface Props {
   status: string;
 }
 
-const IssuesTable: React.FC<Props> = ({ url, status }) => {
+const ReceivedIssuesTable: React.FC<Props> = ({ url, status }) => {
   const [dataSource, setDataSource] = useState<OBJ[] | null>(null);
 
   const columns = [
@@ -48,16 +47,16 @@ const IssuesTable: React.FC<Props> = ({ url, status }) => {
       key: "deadline",
     },
     {
-      title: "From",
-      dataIndex: "from",
-      key: "from",
+      title: "To",
+      dataIndex: "to",
+      key: "to",
     },
     {
       title: "Details",
       key: "details",
       render: (text: any, record: OBJ) => (
         <span>
-          <a href={`/issue_details/${record.key}`}>More details</a>
+          <a href={`/issue_details/requested/${record.key}`}>More details</a>
         </span>
       ),
     },
@@ -71,8 +70,8 @@ const IssuesTable: React.FC<Props> = ({ url, status }) => {
         key: data.iid.toString(),
         title: data.i_title,
         priority: data.i_priority,
-        deadline: "2020-09-22 19:10:25-07",
-        from: data.sender_id.toString(),
+        deadline: data.i_deadline,
+        to: data.username,
       };
       formated_array.push(obj);
     });
@@ -110,10 +109,10 @@ const IssuesTable: React.FC<Props> = ({ url, status }) => {
       {dataSource !== null && dataSource.length !== 0 ? (
         <Table dataSource={dataSource} columns={columns} />
       ) : (
-        <Spin tip="Loading..."></Spin>
+        <p>No issue found</p>
       )}
     </div>
   );
 };
 
-export default IssuesTable;
+export default ReceivedIssuesTable;

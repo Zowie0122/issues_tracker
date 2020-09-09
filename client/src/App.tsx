@@ -6,11 +6,12 @@ import ReceivedSolved from "./components/ReceivedSolved";
 import RequestedSolved from "./components/RequestedSolved";
 import RequestedOngoing from "./components/RequstedOngoing";
 import PostIssueContainer from "./components/PostIssueContainer";
-import IssueDetailContainer from "./components/IssueDetailContainer";
 import OnboardContainer from "./components/admin/OnboardContainer";
 import DeleteEmployeeContainer from "./components/admin/DeleteEmployeeContainer";
 import AddDepartmentContainer from "./components/admin/AddDepartmentContainer";
 import PasswordResetContainer from "./components/UpdatePasswordContainer";
+import ReiceivedIssueDetailContainer from "./components/ReiceivedIssueDetailContainer";
+import RequestedIssueDetailContainer from "./components/RequestedIssueDetailContainer";
 
 const App: React.FC = () => {
   return (
@@ -48,8 +49,13 @@ const App: React.FC = () => {
         />
 
         <RouterPage
-          path="/issue_details/:id"
-          pageComponent={<IssueDetailContainer />}
+          path="/issue_details/received/:id"
+          pageComponent={<ReiceivedIssueDetailContainer />}
+        />
+
+        <RouterPage
+          path="/issue_details/requested/:id"
+          pageComponent={<RequestedIssueDetailContainer />}
         />
 
         <RouterPage

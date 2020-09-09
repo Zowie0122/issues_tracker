@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
 import axios from "axios";
-import { Form, Input, Button, Select, DatePicker, message } from "antd";
+import { Form, Input, Button, Select, DatePicker } from "antd";
 
 const { Option } = Select;
 
@@ -31,25 +31,6 @@ export const formItemLayout = {
       span: 16,
     },
   },
-};
-
-const config = {
-  rules: [
-    {
-      type: "object",
-      required: true,
-      message: "Please select time!",
-    },
-  ],
-};
-const rangeConfig = {
-  rules: [
-    {
-      type: "array",
-      required: true,
-      message: "Please select time!",
-    },
-  ],
 };
 
 export const validateMessages = {
@@ -130,24 +111,23 @@ const PostIssue: React.FC = () => {
       // Should format date value before submit.
       const rangeValue = fieldsValue["range-picker"];
       const rangeTimeValue = fieldsValue["range-time-picker"];
-      const values = {
-        ...fieldsValue,
-        "date-picker": fieldsValue["date-picker"].format("YYYY-MM-DD"),
-        "date-time-picker": fieldsValue["date-time-picker"].format(
-          "YYYY-MM-DD HH:mm:ss"
-        ),
-        "month-picker": fieldsValue["month-picker"].format("YYYY-MM"),
-        "range-picker": [
-          rangeValue[0].format("YYYY-MM-DD"),
-          rangeValue[1].format("YYYY-MM-DD"),
-        ],
-        "range-time-picker": [
-          rangeTimeValue[0].format("YYYY-MM-DD HH:mm:ss"),
-          rangeTimeValue[1].format("YYYY-MM-DD HH:mm:ss"),
-        ],
-        "time-picker": fieldsValue["time-picker"].format("HH:mm:ss"),
-      };
-      console.log("Received values of form: ", values);
+      // const values = {
+      //   ...fieldsValue,
+      //   "date-picker": fieldsValue["date-picker"].format("YYYY-MM-DD"),
+      //   "date-time-picker": fieldsValue["date-time-picker"].format(
+      //     "YYYY-MM-DD HH:mm:ss"
+      //   ),
+      //   "month-picker": fieldsValue["month-picker"].format("YYYY-MM"),
+      //   "range-picker": [
+      //     rangeValue[0].format("YYYY-MM-DD"),
+      //     rangeValue[1].format("YYYY-MM-DD"),
+      //   ],
+      //   "range-time-picker": [
+      //     rangeTimeValue[0].format("YYYY-MM-DD HH:mm:ss"),
+      //     rangeTimeValue[1].format("YYYY-MM-DD HH:mm:ss"),
+      //   ],
+      //   "time-picker": fieldsValue["time-picker"].format("HH:mm:ss"),
+      // };
     };
   };
 
@@ -163,7 +143,7 @@ const PostIssue: React.FC = () => {
           i_title: title,
           i_description: description,
           i_priority: priority,
-          // i_deadline: 20200910,
+          i_deadline: deadline,
           i_status: "ongoing",
           receiver_id: receiver,
         },
@@ -241,7 +221,6 @@ const PostIssue: React.FC = () => {
               )}
             </Select>
           </Form.Item>
-          {console.log(selectedDepartment)}
 
           <Form.Item
             name="receiver"
@@ -266,7 +245,6 @@ const PostIssue: React.FC = () => {
               )}
             </Select>
           </Form.Item>
-          {console.log("employee array", employees)}
 
           <Form
             name="time_related_controls"

@@ -3,13 +3,30 @@ const pool = require("../db/index");
 const { user } = require("../db_credectials");
 const router = Router();
 
-// issue basic info
-router.get("/:id", (request, response, next) => {
+// issue basic info (tasks)
+router.get("/received/:id", (request, response, next) => {
   const { id } = request.params;
-  pool.query("SELECT * FROM issues WHERE iid = $1", [id], (err, res) => {
-    if (err) return next(err);
-    response.json(res.rows);
-  });
+  pool.query(
+    "SELECT * FROM issues LEFT JOIN users ON sender_id = uid WHERE iid = $1 ",
+    [id],
+    (err, res) => {
+      if (err) return next(err);
+      response.json(res.rows);
+    }
+  );
+});
+
+// issue basic info (issues)
+router.get("/sent/:id", (request, response, next) => {
+  const { id } = request.params;
+  pool.query(
+    "SELECT * FROM issues LEFT JOIN users ON receiver_id = uid WHERE iid = $1 ",
+    [id],
+    (err, res) => {
+      if (err) return next(err);
+      response.json(res.rows);
+    }
+  );
 });
 
 // issue with comments
@@ -32,20 +49,20 @@ router.post("/", (request, response, next) => {
     i_title,
     i_description,
     i_priority,
-    // i_deadline,
+    i_deadline,
     i_status,
     receiver_id,
   } = request.body;
 
   console.log(request.body);
   pool.query(
-    "INSERT INTO issues (sender_id,i_title,i_description,i_priority,i_status,receiver_id) VALUES($1,$2,$3,$4,$5,$6)",
+    "INSERT INTO issues (sender_id,i_title,i_description,i_priority,i_deadline,i_status,receiver_id) VALUES($1,$2,$3,$4,$5,$6,$7)",
     [
       sender_id,
       i_title,
       i_description,
       i_priority,
-      // i_deadline,
+      i_deadline,
       i_status,
       receiver_id,
     ],

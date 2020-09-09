@@ -1,12 +1,12 @@
 import React from "react";
-import IssuesTable from "./IssuesTable";
+import ReceivedIssuesTable from "./ReceivedIssuesTable";
 import Layouts from "./Layout";
 
 const ReceivedSolved: React.FC = () => {
   return (
     <Layouts
       childComp={
-        <IssuesTable
+        <ReceivedIssuesTable
           url="http://localhost:5000/user/received/solved"
           status="solved"
         />
