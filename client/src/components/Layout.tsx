@@ -3,6 +3,7 @@ import { Layout } from "antd";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import Navbar from "./Navbar";
 import "../App.css";
+import SizeContext from "antd/lib/config-provider/SizeContext";
 
 interface ParentCompProps {
   childComp?: React.ReactNode;
@@ -15,9 +16,13 @@ const Layouts: React.FC<ParentCompProps> = (props) => {
   const toogle = () => {
     setCollapsed(true);
   };
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Header className="site-layout-background" style={{ padding: 0 }}>
+      <Header
+        className="site-layout-background"
+        style={{ padding: 0, color: "white", textAlign: "left", fontSize: 35 }}
+      >
         {React.createElement(
           collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
           {
@@ -35,7 +40,6 @@ const Layouts: React.FC<ParentCompProps> = (props) => {
           style={{
             overflow: "auto",
             height: "100vh",
-
             left: 0,
           }}
         >

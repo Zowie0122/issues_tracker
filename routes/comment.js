@@ -10,7 +10,6 @@ router.post("/", (request, response, next) => {
     [issue_id, sender_id, c_description],
     (err, res) => {
       if (err) return next(err);
-      console.log("comment has been saved");
       response.json({ sended: true });
     }
   );
@@ -18,7 +17,6 @@ router.post("/", (request, response, next) => {
 
 // router.delete("/:id", (request, response, next) => {
 //   const { id } = request.params;
-//   console.log(id);
 //   pool.query("DELETE FROM comments WHERE cid=$1", [id], (err, res) => {
 //     if (err) return next(err);
 //     response.json(res.rows);

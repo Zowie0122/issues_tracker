@@ -15,7 +15,6 @@ router.get("/", (request, response, next) => {
 // get a department' employees info
 router.get("/:id", (request, response, next) => {
   const { id } = request.params;
-  console.log(id);
   pool.query(
     "SELECT uid,username FROM users WHERE department_id = $1",
     [id],

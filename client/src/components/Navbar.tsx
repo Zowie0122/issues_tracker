@@ -12,7 +12,6 @@ const Navbar: React.FC = () => {
   const [current, setCurrent] = useState<string>("mail");
 
   const handleHover = (e: any) => {
-    console.log("click ", e);
     setCurrent(e.key);
   };
 

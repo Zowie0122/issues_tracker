@@ -54,7 +54,6 @@ router.post("/", (request, response, next) => {
     receiver_id,
   } = request.body;
 
-  console.log(request.body);
   pool.query(
     "INSERT INTO issues (sender_id,i_title,i_description,i_priority,i_deadline,i_status,receiver_id) VALUES($1,$2,$3,$4,$5,$6,$7)",
     [
@@ -74,7 +73,6 @@ router.post("/", (request, response, next) => {
 });
 
 // for the poster of the issue to modify the issue details.
-
 router.put("/:id", (request, response, next) => {
   const { id } = request.params;
 
