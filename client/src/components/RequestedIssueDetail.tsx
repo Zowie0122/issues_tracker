@@ -153,6 +153,7 @@ const RequestedIssueDetail: React.FC = () => {
 
   async function handleEditIssue() {
     try {
+      console.log("######", iid);
       const url = `http://localhost:5000/issue/${iid}`;
       const res = await axios.put(
         url,
@@ -345,8 +346,8 @@ const RequestedIssueDetail: React.FC = () => {
                 setStatus(e);
               }}
             >
-              <Option value="onging">ongoing</Option>
-              <Option value="sloved">solved</Option>
+              <Option value="ongoing">ongoing</Option>
+              <Option value="solved">solved</Option>
             </Select>
           </Form.Item>
 

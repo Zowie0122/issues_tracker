@@ -54,6 +54,11 @@ interface employee {
   uid: number;
 }
 
+const headers = {
+  id: localStorage.getItem("id"),
+  authorization: localStorage.getItem("auth"),
+};
+
 const PostIssue: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [priority, setPriority] = useState<any>();
@@ -61,22 +66,12 @@ const PostIssue: React.FC = () => {
     { did: 0, department_name: "" },
   ]);
 
-  const [employees, setEmployees] = useState<employee[]>([
-    { username: "", uid: 0 },
-  ]);
-
+  const [employees, setEmployees] = useState<employee[]>([]);
   const [selectedDepartment, setSelectedDepartment] = useState<any>("");
-
   const [receiver, setReceiver] = useState<any>("");
   const [deadline, setDeadline] = useState<any>("");
   const [description, setDescription] = useState<string | null>("");
-
   const [finishMessage, setFinishMessage] = useState<string>("");
-
-  const headers = {
-    id: localStorage.getItem("id"),
-    authorization: localStorage.getItem("auth"),
-  };
 
   const fetch_departments = async () => {
     try {
@@ -106,31 +101,6 @@ const PostIssue: React.FC = () => {
     fetch_departments_employees();
   }, [selectedDepartment]);
 
-  const TimeRelatedForm = () => {
-    const onFinish_time = (fieldsValue: any) => {
-      // Should format date value before submit.
-      const rangeValue = fieldsValue["range-picker"];
-      const rangeTimeValue = fieldsValue["range-time-picker"];
-      // const values = {
-      //   ...fieldsValue,
-      //   "date-picker": fieldsValue["date-picker"].format("YYYY-MM-DD"),
-      //   "date-time-picker": fieldsValue["date-time-picker"].format(
-      //     "YYYY-MM-DD HH:mm:ss"
-      //   ),
-      //   "month-picker": fieldsValue["month-picker"].format("YYYY-MM"),
-      //   "range-picker": [
-      //     rangeValue[0].format("YYYY-MM-DD"),
-      //     rangeValue[1].format("YYYY-MM-DD"),
-      //   ],
-      //   "range-time-picker": [
-      //     rangeTimeValue[0].format("YYYY-MM-DD HH:mm:ss"),
-      //     rangeTimeValue[1].format("YYYY-MM-DD HH:mm:ss"),
-      //   ],
-      //   "time-picker": fieldsValue["time-picker"].format("HH:mm:ss"),
-      // };
-    };
-  };
-
   async function handlePostIssue() {
     try {
       const senderIDString = localStorage.getItem("id");
@@ -151,7 +121,7 @@ const PostIssue: React.FC = () => {
       );
 
       if (res.data.sended_out) {
-        setFinishMessage("Your requested has sussfully been posted");
+        setFinishMessage("Your issue has sussfully been posted");
       }
     } catch (err) {
       console.log(err);
@@ -246,11 +216,7 @@ const PostIssue: React.FC = () => {
             </Select>
           </Form.Item>
 
-          <Form
-            name="time_related_controls"
-            {...formItemLayout}
-            onFinish={TimeRelatedForm}
-          >
+          <Form name="time_related_controls" {...formItemLayout}>
             <Form.Item name="date-time-picker" label="Dealine">
               <DatePicker
                 showTime
@@ -279,7 +245,7 @@ const PostIssue: React.FC = () => {
           </Form.Item>
         </Form>
       ) : (
-        <p>{finishMessage}</p>
+        <h3>{finishMessage}</h3>
       )}
     </div>
   );

@@ -9,7 +9,6 @@ router.post("/onboard", (request, response, next) => {
 
   const insertValue = (result) => {
     if (result.length === 0) {
-      console.log(password);
       pool.query(
         "INSERT INTO users (username, email, password, department_id) VALUES ($1,$2,$3,$4)",
         [username, email, password, department_id],
@@ -35,7 +34,6 @@ router.post("/onboard", (request, response, next) => {
 // add new department
 router.post("/department", (request, response, next) => {
   const { new_department } = request.body;
-  console.log(new_department);
   pool.query(
     "INSERT INTO departments (department_name) VALUES($1)",
     [new_department],

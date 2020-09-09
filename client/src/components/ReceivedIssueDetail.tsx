@@ -76,7 +76,6 @@ const ReceivedIssueDetail: React.FC = () => {
   const [employees, setEmployees] = useState<employee[]>([
     { username: "", uid: 0 },
   ]);
-
   const [newComment, setNewComment] = useState<string | null>();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showEdit, setShowEdit] = useState<boolean>(false);
@@ -94,9 +93,7 @@ const ReceivedIssueDetail: React.FC = () => {
 
   const get_issue_info = async () => {
     const url = `http://localhost:5000/issue/received/${iid}`;
-    console.log(iid);
     const issue_data = await axios.get(url, { headers: headers });
-    console.log(issue_data.data);
     const issueInfo_detail = {
       Title: issue_data.data[0].i_title,
       Sender: issue_data.data[0].username,
@@ -120,11 +117,9 @@ const ReceivedIssueDetail: React.FC = () => {
     if (d) {
       setSelectedDepartment(d.department_name);
     }
-
     const e = employees.find(
       (ele) => ele.uid == issue_data.data[0].receiver_id
     );
-
     if (e) {
       receiverUsername(e.username);
     }
@@ -148,7 +143,6 @@ const ReceivedIssueDetail: React.FC = () => {
 
   async function handleEditIssue() {
     try {
-      const senderIDString = localStorage.getItem("id");
       const url = `http://localhost:5000/issue/${iid}`;
       const res = await axios.put(
         url,
@@ -201,9 +195,7 @@ const ReceivedIssueDetail: React.FC = () => {
     try {
       const url = "http://localhost:5000/user";
       const res = await axios.get(url, { headers: headers });
-
       const r = res.data.find((ele: Ir) => ele.uid == issueInfo.receiver_id);
-
       setReceiverUsername(r.username);
       setAllEmployees(res.data);
     } catch (err) {
@@ -332,8 +324,8 @@ const ReceivedIssueDetail: React.FC = () => {
                 setStatus(e);
               }}
             >
-              <Option value="onging">ongoing</Option>
-              <Option value="sloved">solved</Option>
+              <Option value="ongoing">ongoing</Option>
+              <Option value="solved">solved</Option>
             </Select>
           </Form.Item>
 
@@ -390,11 +382,7 @@ const ReceivedIssueDetail: React.FC = () => {
 
           <Form name="time_related_controls" {...formItemLayout}>
             <Form.Item name="date-time-picker" label="Deadline">
-              <DatePicker
-                showTime
-                format="YYYY-MM-DD HH:mm:ss"
-                onChange={(e) => console.log("###", e)}
-              />
+              <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
             </Form.Item>
           </Form>
 

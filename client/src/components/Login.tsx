@@ -7,7 +7,7 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  async function loginHandler() {
+  const loginHandler = async () => {
     try {
       const res = await axios.post("http://localhost:5000/login/", {
         email: email,
@@ -16,7 +16,6 @@ const Login: React.FC = () => {
       if (res.data.auth) {
         localStorage.setItem("auth", res.data.auth);
         localStorage.setItem("id", res.data.id);
-        console.log(res.data.id);
         if (res.data.id === 1) {
           window.location.href = `http://localhost:3000/admin/onboard`;
         } else {
@@ -26,7 +25,7 @@ const Login: React.FC = () => {
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   return (
     <div>
