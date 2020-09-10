@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./client/public/example.png" width="750" title="Share your fire">
+  <img src="./client/public/example.png" width="750" title="example page">
 </p>
 
 # About Issue Tracker
