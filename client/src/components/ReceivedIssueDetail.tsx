@@ -14,6 +14,7 @@ import {
 } from "antd";
 import moment from "moment";
 import { formItemLayout, layout, validateMessages } from "./PostIssue";
+import { formatToTimeAgo, formatToDateTime } from "../util";
 
 const { Option } = Select;
 // class iissueInfo {
@@ -96,10 +97,10 @@ const ReceivedIssueDetail: React.FC = () => {
     const issue_data = await axios.get(url, { headers: headers });
     const issueInfo_detail = {
       Title: issue_data.data[0].i_title,
-      Sender: issue_data.data[0].username,
+      "Sent By": issue_data.data[0].username,
       Status: issue_data.data[0].i_status,
-      Created: issue_data.data[0].i_data_created,
-      Deadline: issue_data.data[0].i_deadline,
+      "Created At": formatToDateTime(issue_data.data[0].i_data_created),
+      Deadline: formatToDateTime(issue_data.data[0].i_deadline),
       Priority: issue_data.data[0].i_priority,
       Description: issue_data.data[0].i_description,
     };
@@ -150,7 +151,7 @@ const ReceivedIssueDetail: React.FC = () => {
           i_title: title,
           i_description: description,
           i_priority: priority,
-          i_deadline: "2020-09-20T10:04:15.047Z",
+          i_deadline: deadline,
           i_status: status,
           receiver_id: receiver,
           department_id: selectedDepartment,
@@ -413,13 +414,13 @@ const ReceivedIssueDetail: React.FC = () => {
             avatar={
               <Avatar
                 src="https://library.kissclipart.com/20180904/jbw/kissclipart-white-user-icon-png-clipart-computer-icons-clip-ar-e1de9d82983cd12e.jpg"
-                alt="Han Solo"
+                alt={comment.username}
               />
             }
             content={<p>{comment.c_description}</p>}
             datetime={
               <Tooltip title={moment().format(comment.c_date_created)}>
-                <span>{comment.c_date_created}</span>
+                <span>{formatToTimeAgo(comment.c_date_created)}</span>
               </Tooltip>
             }
           />
