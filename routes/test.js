@@ -25,7 +25,7 @@ router.get("/department", (request, response, next) => {
 
 router.get("/department/:id", (request, response, next) => {
   const { id } = request.params;
-  console.log(id);
+
   pool.query(
     "SELECT uid,username FROM users WHERE department_id = $1",
     [id],

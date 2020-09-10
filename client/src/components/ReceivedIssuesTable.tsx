@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../App.css";
 import { Table } from "antd";
+import { formatToTimeAgo, formatToDateTime } from "../util";
 
 interface OBJ {
   key: string;
@@ -64,13 +65,12 @@ const ReceivedIssuesTable: React.FC<Props> = ({ url, status }) => {
 
   const format_data_source = (rawData: []): [] => {
     const formated_array: OBJ[] | any = [];
-    console.log(rawData);
     rawData.forEach((data: AxiosResponse) => {
       let obj: OBJ = {
         key: data.iid.toString(),
         title: data.i_title,
         priority: data.i_priority,
-        deadline: data.i_deadline,
+        deadline: formatToDateTime(data.i_deadline),
         from: data.username,
       };
       formated_array.push(obj);
@@ -109,7 +109,7 @@ const ReceivedIssuesTable: React.FC<Props> = ({ url, status }) => {
       {dataSource !== null && dataSource.length !== 0 ? (
         <Table dataSource={dataSource} columns={columns} />
       ) : (
-        <p>No issue found</p>
+        <h3>No issue found</h3>
       )}
     </div>
   );

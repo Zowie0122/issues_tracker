@@ -14,6 +14,7 @@ import {
 } from "antd";
 import moment from "moment";
 import { formItemLayout, layout, validateMessages } from "./PostIssue";
+import { formatToTimeAgo, formatToDateTime } from "../util";
 
 const { Option } = Select;
 // class iissueInfo {
@@ -100,10 +101,10 @@ const RequestedIssueDetail: React.FC = () => {
     console.log(issue_data);
     const issueInfo_detail = {
       Title: issue_data.data[0].i_title,
-      Receiver: issue_data.data[0].username,
+      "Sent To": issue_data.data[0].username,
       Status: issue_data.data[0].i_status,
-      Created: issue_data.data[0].i_data_created,
-      Deadline: issue_data.data[0].i_deadline,
+      "Created At": formatToDateTime(issue_data.data[0].i_data_created),
+      Deadline: formatToDateTime(issue_data.data[0].i_deadline),
       Priority: issue_data.data[0].i_priority,
       Description: issue_data.data[0].i_description,
     };
@@ -168,7 +169,6 @@ const RequestedIssueDetail: React.FC = () => {
         },
         { headers: headers }
       );
-      console.log("####", res.data);
       if (res.data.edited) {
         setShowEdit(false);
         window.location.href = window.location.pathname;
@@ -379,7 +379,6 @@ const RequestedIssueDetail: React.FC = () => {
               )}
             </Select>
           </Form.Item>
-          {console.log(initialDepartment)}
 
           <Form.Item
             name="receiver"
@@ -446,7 +445,7 @@ const RequestedIssueDetail: React.FC = () => {
             content={<p>{comment.c_description}</p>}
             datetime={
               <Tooltip title={moment().format(comment.c_date_created)}>
-                <span>{comment.c_date_created}</span>
+                <span>{formatToTimeAgo(comment.c_date_created)}</span>
               </Tooltip>
             }
           />
